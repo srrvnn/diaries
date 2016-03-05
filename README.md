@@ -25,3 +25,7 @@ https://developers.facebook.com/docs/graph-api/reference/v2.5/album/photos
 ###### store stuff in local storage
 https://github.com/marcuswestin/store.js <br/>
 http://www.sitepoint.com/9-javascript-libraries-working-with-local-storage/
+
+### setup
+
+from root run `python -m SimpleHTTPServer`, and navigate to localhost:8000
