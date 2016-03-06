@@ -1,6 +1,6 @@
-var FBDiaries = React.createClass({
+var Diaries = React.createClass({
     getInitialState: function() {
-        return { user: null, status: null, entry: null};
+        return { user: null, post_status: null, post_id: null, entry: null};
     },
     userStatusChange: function() {
         var _this = this;
@@ -13,6 +13,9 @@ var FBDiaries = React.createClass({
                 _this.setState({user: null});
             }
         });
+    },
+    postStatusChange: function(status) {
+        this.setState({post_status: status.message, post_id: status.id});
     },
     componentWillMount: function() {
         var _this = this;
@@ -39,49 +42,72 @@ var FBDiaries = React.createClass({
     render: function() {
         return (
             <div className="content">
-                <h1>Diaries</h1>
+                <h1>{this.state.user ? this.state.user.split(' ')[0] + '\'s' : ''} Diaries</h1>
                 <FBLogin />
-                {this.state.user === null ? <FBDiariesIntro /> : <FBDiariesEntry />}
+                <DiariesStatus status={this.state.post_status} id={this.state.post_id}/>
+                {this.state.user === null
+                    ? <DiariesIntro />
+                    : <DiariesPost onStatusChange={this.postStatusChange}/>}
             </div>
         );
     }
 });
 
 var FBLogin = React.createClass({
-    html: function() {
-        return { __html: '<fb:login-button size="large" scope="public_profile,user_birthday,publish_actions" \
-            default_audience="only_me" auto-logout-link="true"></fb:login-button>' };
-    },
     render: function() {
         return (
-            <div dangerouslySetInnerHTML={this.html()}></div>
+            <div className="fb-login-button" data-scope="public_profile,user_birthday,publish_actions"
+                 data-size="large" data-auto-logout-link="true">
+            </div>
         );
     }
 });
 
-var FBDiariesEntry = React.createClass({
+var DiariesPost = React.createClass({
     onChange: function() {
         console.log('Hey, I have no clue what to do on change, yet.');
     },
+    onSubmit: function(e) {
+        var _this = this;
+        e.preventDefault();
+        var post_message = {
+            'message': 'Testing private post from Diaries.'
+        };
+        FB.api('/me/feed', 'POST', post_message, function (response) {
+            if (response && !response.error) {
+                _this.props.onStatusChange({message: 'successful', id: response.id});
+            } else {
+                _this.props.onStatusChange({message: 'unsuccessful'});
+            }
+        });
+    },
     render: function() {
         return (
-            <input onChange={this.onChange}/>
+            <form className="diaries-entry" onSubmit={this.onSubmit}>
+                <textarea onChange={this.onChange}></textarea>
+                <button type="submit">Post</button>
+            </form>
+        );
+    }
+});
+
+var DiariesStatus = React.createClass({
+    render: function() {
+        return (
+            <div>
+                {this.props.status ? <span> The private post was {this.props.status}. </span> : ''}
+                {this.props.id ? <a href={'http://facebook.com/' + this.props.id}> See it on Facebook. </a> : ''}
+            </div>
         )
     }
 });
 
-
-var FBDiariesIntro = React.createClass({
+var DiariesIntro = React.createClass({
     render: function() {
         return (
-            <div> ;) </div>
+            <div> Write your heart, and post it privately to facebook. Look at the post years later, and you'll love the memories. </div>
         )
     }
 });
 
-// for starters create all components here
-
-ReactDOM.render(
-  <FBDiaries />,
-  document.getElementById('container')
-);
+ReactDOM.render(<Diaries />, document.getElementById('container'));
