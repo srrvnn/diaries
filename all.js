@@ -67,17 +67,40 @@ var FBLogin = React.createClass({
 });
 
 var DiariesPost = React.createClass({
+    saveTimeout: null,
     getInitialState: function() {
-        return {post_content: null, last_save: null, last_update: null};
+        return {content: null, created_at: null, updated_at: null};
     },
     onChange: function(e) {
-        this.setState({post_content: e.target.value});
+        var _this = this;
+        this.setState({content: e.target.value});
+
+        // debounce, and save to local storage
+        clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(function() {
+            if (this.state.content == null || this.state.content.length < 1) {
+                return;
+            }
+            if (store.enabled) {
+                var diaries_posts = store.get('diaries_posts') || [];
+                if (diaries_posts.length > 0
+                    && diaries_posts[diaries_posts.length - 1].posted == false) {
+                    diaries_posts.pop();
+                }
+                diaries_posts.push({
+                    created_at: _this.state.created_at,
+                    content: _this.state.content,
+                    posted: false
+                });
+                store.set('diaries_posts', diaries_posts);
+            }
+        }, 1000);
     },
     onSubmit: function(e) {
         var _this = this;
         e.preventDefault();
         var post_message = {
-            'message': this.state.post_content
+            'message': this.state.content
         };
 
         var first_line = post_message.message.split('\n')[0].replace('...', '');
@@ -88,6 +111,11 @@ var DiariesPost = React.createClass({
             : post_message.message.split('\n').slice(1).join('\n');
 
         FB.api('/me/feed', 'POST', post_message, function (response) {
+            if (store.enabled) {
+                var diaries_posts = store.get('diaries_posts');
+                diaries_posts[diaries_posts.length - 1].posted = true;
+                store.set('diaries_posts', diaries_posts);
+            }
             if (response && !response.error) {
                 _this.props.onStatusChange({message: 'successful', id: response.id});
             } else {
@@ -97,13 +125,25 @@ var DiariesPost = React.createClass({
     },
     componentDidMount: function() {
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        this.setState({post_content: (new Date()).toLocaleString('en-US', options) + '...\n'});
+
+        if (store.enabled && store.get('diaries_posts')) {
+            var saved = store.get('diaries_posts').sort(function(a, b){ return b.created_at - a.created_at; }).pop();
+            console.dir(saved);
+            if (saved.posted) {
+                this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n', created_at: Date.now()});
+            } else {
+                this.setState({content: saved.content, created_at: saved.created_at});
+            }
+        } else {
+            this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n', created_at: Date.now()});
+        }
+
         this.refs.post_textarea.focus();
     },
     render: function() {
         return (
             <form className="diaries-post" onSubmit={this.onSubmit}>
-                <textarea ref="post_textarea" onChange={this.onChange} value={this.state.post_content}></textarea>
+                <textarea ref="post_textarea" onChange={this.onChange} value={this.state.content}></textarea>
                 <div className="actions">
                     <button className="post" type="submit">Post</button>
                 </div>
