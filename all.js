@@ -46,7 +46,7 @@ var Diaries = React.createClass({ getInitialState: function() {
                 <DiariesStatus status={this.state.post_status} id={this.state.post_id}/>
                 {this.state.user === null
                     ? <DiariesIntro />
-                    : <DiariesPost onStatusChange={this.postStatusChange}/>}
+                    : <DiariesPost user_id={this.state.user_id} onStatusChange={this.postStatusChange}/>}
                 <FBLogin user_id={this.state.user_id}/>
             </div>
         );
@@ -78,7 +78,7 @@ var DiariesPost = React.createClass({
         // debounce, and save to local storage
         clearTimeout(this.saveTimeout);
         this.saveTimeout = setTimeout(function() {
-            if (this.state.content == null || this.state.content.length < 1) {
+            if (_this.state.content == null || _this.state.content.length < 1) {
                 return;
             }
             if (store.enabled) {
@@ -89,7 +89,7 @@ var DiariesPost = React.createClass({
                 }
                 diaries_posts.push({
                     created_at: _this.state.created_at,
-                    content: _this.state.content,
+                    content: CryptoJS.AES.encrypt(_this.state.content, _this.props.user_id).toString(),
                     posted: false
                 });
                 store.set('diaries_posts', diaries_posts);
@@ -132,7 +132,7 @@ var DiariesPost = React.createClass({
             if (saved.posted) {
                 this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n', created_at: Date.now()});
             } else {
-                this.setState({content: saved.content, created_at: saved.created_at});
+                this.setState({content: CryptoJS.AES.decrypt(saved.content, this.props.user_id).toString(CryptoJS.enc.Utf8), created_at: saved.created_at});
             }
         } else {
             this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n', created_at: Date.now()});
