@@ -1,16 +1,16 @@
 var Diaries = React.createClass({
     getInitialState: function() {
-        return { user: null, post_status: null, post_id: null, entry: null};
+        return { user: null, user_id: null, post_status: null, post_id: null};
     },
     userStatusChange: function() {
         var _this = this;
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 FB.api('/me', function(response) {
-                    _this.setState({user: response.name, entry: ''});
+                    _this.setState({user: response.name, user_id: response.id});
                 })
             } else {
-                _this.setState({user: null});
+                _this.setState({user: null, user_id: null, post_status: null, post_id: null});
             }
         });
     },
@@ -42,12 +42,13 @@ var Diaries = React.createClass({
     render: function() {
         return (
             <div className="content">
-                <h1>{this.state.user ? this.state.user.split(' ')[0] + '\'s' : ''} Diaries</h1>
-                <FBLogin />
+                <h1>Diaries</h1>
+
                 <DiariesStatus status={this.state.post_status} id={this.state.post_id}/>
                 {this.state.user === null
                     ? <DiariesIntro />
                     : <DiariesPost onStatusChange={this.postStatusChange}/>}
+                <FBLogin user_id={this.state.user_id}/>
             </div>
         );
     }
@@ -56,22 +57,28 @@ var Diaries = React.createClass({
 var FBLogin = React.createClass({
     render: function() {
         return (
-            <div className="fb-login-button" data-scope="public_profile,user_birthday,publish_actions"
-                 data-size="large" data-auto-logout-link="true">
+            <div className="login">
+                {this.props.user_id == null ? '' : <img src={'http://graph.facebook.com/' + this.props.user_id + '/picture'} />}
+                <div className="fb-login-button" data-scope="public_profile,user_birthday,publish_actions"
+                     data-size="xlarge" data-auto-logout-link="true">
+                </div>
             </div>
         );
     }
 });
 
 var DiariesPost = React.createClass({
-    onChange: function() {
-        console.log('Hey, I have no clue what to do on change, yet.');
+    getInitialState: function() {
+        return {post_content: null, last_save: null, last_update: null};
+    },
+    onChange: function(e) {
+        this.setState({post_content: e.target.value});
     },
     onSubmit: function(e) {
         var _this = this;
         e.preventDefault();
         var post_message = {
-            'message': 'Testing private post from Diaries.'
+            'message': this.state.post_content
         };
         FB.api('/me/feed', 'POST', post_message, function (response) {
             if (response && !response.error) {
@@ -81,11 +88,16 @@ var DiariesPost = React.createClass({
             }
         });
     },
+    componentDidMount: function() {
+        // focus on the text box
+    },
     render: function() {
         return (
-            <form className="diaries-entry" onSubmit={this.onSubmit}>
-                <textarea onChange={this.onChange}></textarea>
-                <button type="submit">Post</button>
+            <form className="diaries-post" onSubmit={this.onSubmit}>
+                <textarea onChange={this.onChange} autofocus></textarea>
+                <div className="actions">
+                    <button className="post" type="submit">Post</button>
+                </div>
             </form>
         );
     }
@@ -105,7 +117,18 @@ var DiariesStatus = React.createClass({
 var DiariesIntro = React.createClass({
     render: function() {
         return (
-            <div> Write your heart, and post it privately to facebook. Look at the post years later, and you'll love the memories. </div>
+            <div className="diaries-intro">
+                Write your heart out, and post it privately to facebook. <br/>
+
+                <span className="more">
+                -> All posts to fb will be tagged with 'only me' privacy &mdash; no exceptions. <br/>
+                -> All posts are saved locally, on this browser and nowhere else. <br/>
+                -> All posts are encrypted after log in, to keep sneaking into the browser out. <br/>
+                -> Add photos from your facebook albums to posts. <br/>
+
+                </span>
+
+            </div>
         )
     }
 });
