@@ -80,6 +80,14 @@ var DiariesPost = React.createClass({
         var post_message = {
             'message': this.state.post_content
         };
+
+        var first_line = post_message.message.split('\n')[0].replace('...', '');
+        var date = Date.parse(first_line);
+
+        post_message.message = isNaN(date)
+            ? post_message.message
+            : post_message.message.split('\n').slice(1).join('\n');
+
         FB.api('/me/feed', 'POST', post_message, function (response) {
             if (response && !response.error) {
                 _this.props.onStatusChange({message: 'successful', id: response.id});
@@ -89,12 +97,14 @@ var DiariesPost = React.createClass({
         });
     },
     componentDidMount: function() {
-        // focus on the text box
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        this.setState({post_content: (new Date()).toLocaleString('en-US', options) + '...\n'});
+        this.refs.post_textarea.focus();
     },
     render: function() {
         return (
             <form className="diaries-post" onSubmit={this.onSubmit}>
-                <textarea onChange={this.onChange} autofocus></textarea>
+                <textarea ref="post_textarea" onChange={this.onChange} value={this.state.post_content}></textarea>
                 <div className="actions">
                     <button className="post" type="submit">Post</button>
                 </div>
@@ -123,7 +133,7 @@ var DiariesIntro = React.createClass({
                 <span className="more">
                 -> All posts to fb will be tagged with 'only me' privacy &mdash; no exceptions. <br/>
                 -> All posts are saved locally, on this browser and nowhere else. <br/>
-                -> All posts are encrypted after log in, to keep sneaking into the browser out. <br/>
+                -> All posts are encrypted, to keep sneaking into the browser out. <br/>
                 -> Add photos from your facebook albums to posts. <br/>
 
                 </span>
