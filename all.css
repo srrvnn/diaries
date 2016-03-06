@@ -34,6 +34,19 @@
     font-family: 'Nothing You Could Do', cursive;
 }
 
+.diaries-status {
+
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.diaries-status a {
+
+    text-decoration: none;
+    color: #3A5795;
+}
+
 .diaries-intro {
 
     margin: 20px 100px;

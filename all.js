@@ -1,5 +1,4 @@
-var Diaries = React.createClass({
-    getInitialState: function() {
+var Diaries = React.createClass({ getInitialState: function() {
         return { user: null, user_id: null, post_status: null, post_id: null};
     },
     userStatusChange: function() {
@@ -116,9 +115,9 @@ var DiariesPost = React.createClass({
 var DiariesStatus = React.createClass({
     render: function() {
         return (
-            <div>
+            <div className="diaries-status">
                 {this.props.status ? <span> The private post was {this.props.status}. </span> : ''}
-                {this.props.id ? <a href={'http://facebook.com/' + this.props.id}> See it on Facebook. </a> : ''}
+                {this.props.id ? <a href={'http://facebook.com/' + this.props.id} target="_blank"> See it on Facebook. </a> : ''}
             </div>
         )
     }
