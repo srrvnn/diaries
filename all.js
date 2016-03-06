@@ -123,15 +123,27 @@ var DiariesPost = React.createClass({
             }
         });
     },
+    onClear: function() {
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n', created_at: Date.now()});
+        if (store.enabled) {
+            var diaries_posts = store.get('diaries_posts') || [];
+            if (diaries_posts.length > 0
+                && diaries_posts[diaries_posts.length - 1].posted == false) {
+                diaries_posts.pop();
+            }
+            store.set('diaries_posts', diaries_posts);
+            this.refs.post_textarea.focus();
+        }
+    },
     componentDidMount: function() {
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
 
-        if (store.enabled && store.get('diaries_posts')) {
+        if (store.enabled && store.get('diaries_posts') && store.get('diaries_posts').length > 0) {
             var saved = store.get('diaries_posts').sort(function(a, b){ return b.created_at - a.created_at; }).pop();
-            console.dir(saved);
-            if (saved.posted) {
+            if (saved && saved.posted) {
                 this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n', created_at: Date.now()});
-            } else {
+            } else if (saved) {
                 this.setState({content: CryptoJS.AES.decrypt(saved.content, this.props.user_id).toString(CryptoJS.enc.Utf8), created_at: saved.created_at});
             }
         } else {
@@ -146,6 +158,7 @@ var DiariesPost = React.createClass({
                 <textarea ref="post_textarea" onChange={this.onChange} value={this.state.content}></textarea>
                 <div className="actions">
                     <button className="post" type="submit">Post</button>
+                    <button className="post" type="button" onClick={this.onClear}>x</button>
                 </div>
             </form>
         );
@@ -172,8 +185,8 @@ var DiariesIntro = React.createClass({
                 <span className="more">
                 -> All posts to fb will be tagged with 'only me' privacy &mdash; no exceptions. <br/>
                 -> All posts are saved locally, on this browser and nowhere else. <br/>
-                -> All posts are encrypted, to keep sneaking into the browser out. <br/>
-                -> Add photos from your facebook albums to posts. <br/>
+                -> All posts are encrypted, to keep dev console sneaks safe. <br/>
+                -> Soon: Add photos from your facebook albums to posts. <br/>
 
                 </span>
 
