@@ -162,6 +162,7 @@
 
 .diaries-post {
     width: 100%;
+    max-width: 1140px;
     position: relative;
     margin: 100px auto;
 }
@@ -173,7 +174,7 @@
     /* vertical-align: middle; */
     display: block;
     height: 400px;
-    width: 1140px;
+    width: 100%;
     margin: auto;
     padding: 50px;
     resize: none;
@@ -191,7 +192,7 @@
 
 .diaries-post .actions {
     height: 85px;
-    width: 1140px;
+    width: 100%;
     margin: auto;
     text-align: left;
     padding: 0 30px;
