@@ -26,6 +26,7 @@
     background-color: #FA6900;
     height: 250px;
     transition: all 200ms;
+    width: 100%;
 }
 
 .diaries-header.user {
