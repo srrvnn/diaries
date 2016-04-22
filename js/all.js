@@ -231,13 +231,15 @@ var DiariesPost = React.createClass({
 
         if (store.enabled && store.get('diaries_posts') && store.get('diaries_posts').length > 0) {
 
-            var saved = store.get('diaries_posts').sort(function(a, b){ return b.created_at - a.created_at; }).pop();
+            // var saved = store.get('diaries_posts').sort(function(a, b){ return b.created_at - a.created_at; }).pop();
 
-            if (saved && saved.posted) {
+            var saved = store.get('diaries_posts').pop();
+
+            if (Boolean(saved.content) && saved.posted) {
 
                 this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n\n', created_at: Date.now()});
 
-            } else if (saved) {
+            } else if (Boolean(saved.content)) {
 
                 this.setState({content: CryptoJS.AES.decrypt(saved.content, this.props.user_id).toString(CryptoJS.enc.Utf8), created_at: saved.created_at});
             }
