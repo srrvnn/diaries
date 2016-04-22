@@ -191,13 +191,11 @@ var DiariesPost = React.createClass({
 
                 _this.props.onStatusChange({message: 'Post Unsuccesful. ' + response.error.error_user_title});
 
-                console.error(response);
+                console.dir(response);
 
                 _this.statusTimeout = setTimeout(function() {
 
                     _this.props.onStatusChange({message: null, id: null});
-
-                    console.clear();
 
                 }, 10000);
             }
