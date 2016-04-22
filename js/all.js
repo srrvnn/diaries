@@ -171,6 +171,7 @@ var DiariesPost = React.createClass({
             _this.setState({posting: false});
 
             if (store.enabled) {
+
                 var diaries_posts = store.get('diaries_posts');
                 diaries_posts[diaries_posts.length - 1].posted = true;
                 store.set('diaries_posts', diaries_posts);
@@ -180,7 +181,7 @@ var DiariesPost = React.createClass({
 
                 _this.props.onStatusChange({message: 'Post successful.', id: response.id});
 
-                this.statusTimeout = setTimeout(function() {
+                _this.statusTimeout = setTimeout(function() {
 
                     _this.props.onStatusChange({message: null, id: null});
 
@@ -192,7 +193,7 @@ var DiariesPost = React.createClass({
 
                 console.error(response);
 
-                this.statusTimeout = setTimeout(function() {
+                _this.statusTimeout = setTimeout(function() {
 
                     _this.props.onStatusChange({message: null, id: null});
 
