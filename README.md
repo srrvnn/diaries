@@ -1,6 +1,6 @@
 # fb-logs
 
-a diary application that logs to fb feed with privacy set to self.
+a diary application that logs to fb feed with privacy always set to self.
 
 ### proof of concept
 

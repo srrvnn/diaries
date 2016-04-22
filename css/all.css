@@ -1,0 +1,286 @@
+/* http://www.dtelepathy.com/wp-content/uploads/2013/07/Color-Palette-Post-01-Goldfish.png */
+
+* {
+     font-family: 'Open Sans', sans-serif;
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+     /*background: aliceblue; */
+}
+
+#container {
+    background: #ECECEC;
+    min-height: 100vh;
+}
+
+.content {
+    margin: auto;
+    text-align: center;
+    background: white;
+    min-height: 100vh;
+}
+
+.diaries-header {
+    margin-bottom: 100px;
+    padding: 50px 0;
+    background-color: #FA6900;
+    height: 250px;
+    transition: all 200ms;
+}
+
+.diaries-header.user {
+    padding: 10px;
+    height: 110px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    font-size: 10px;
+}
+
+.diaries-header h1,
+.diaries-header h1 span,
+.diaries-header h3 {
+    font-family: 'Nothing You Could Do', serif;
+}
+
+
+.diaries-header h1 {
+    font-size: 4em;
+    margin: 25px 0;
+}
+
+.diaries-header h3 {
+    font-size: 1.5em;
+}
+
+.diaries-header button {
+    font-size: 20px;
+    margin: 15px;
+    /* padding: 7px 25px; */
+    cursor: pointer;
+    border: 2px solid #FA6900;
+    color: #FA6900;
+    border-radius: 2px;
+    border-radius: 10px;
+    background: white;
+    /* display: inline-block; */
+    height: 50px;
+    width: 50px;
+    /* margin: 5px 15px; */
+    /* overflow: hidden; */
+    position: relative;
+    top: -95px;
+    right: 250px;
+    overflow: hidden;
+}
+
+.diaries-header button:hover {
+    color: black;
+}
+
+.diaries-header button:hover::after {
+    font-family: 'FontAwesome';
+    content: '\f08b';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 50px;
+    width: 50px;
+    background: #FA6900;
+    opacity: 0.8;
+    color: black;
+    line-height: 50px;
+    font-size: 15px;
+}
+
+/** DIARIES STATUS **/
+
+.diaries-status {
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.diaries-status a {
+    text-decoration: none;
+    color: #3A5795;
+}
+
+/** DIARIES INTRO **/
+
+.diaries-intro-btn {
+    font-size: 1em;
+    padding: 5px 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    background: none;;
+}
+
+.diaries-intro-btn:hover,
+.diaries-intro-btn:focus {
+    outline: none;
+    background: #69D2E7;
+}
+
+.diaries-intro {
+    font-size: 1em;
+    line-height: 3em;
+    margin: 50px auto;
+}
+
+.diaries-intro .more {
+    text-align: left;
+    position: relative;
+    display: inline-block;
+    margin: 20px 0;
+    padding-top: 40px;
+}
+
+.diaries-intro .more::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 50%;
+    height: 5px;
+    margin: auto;
+    content: '';
+    background: #69D2E7;
+}
+
+.diaries-intro .more .fa {
+
+    margin: 0 30px;
+    font-size: 1.2em;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/** DIARIES POST **/
+
+.diaries-post {
+    width: 100%;
+    position: relative;
+    margin: 100px auto;
+}
+
+.diaries-post textarea {
+    font-size: 18px;
+    line-height: 36px;
+    position: relative;
+    /* vertical-align: middle; */
+    display: block;
+    height: 400px;
+    width: 1140px;
+    margin: auto;
+    padding: 50px;
+    resize: none;
+    border: 1px solid #69D2E7;
+    border-radius: 5px;
+    background: #69D2E7;
+    color: white;
+}
+
+.diaries-post textarea:focus {
+    border: 1px solid #E9EAED;
+    border-radius: 5px;
+    outline: none;
+}
+
+.diaries-post .actions {
+    height: 85px;
+    width: 1140px;
+    margin: auto;
+    text-align: left;
+    padding: 0 30px;
+    display: inline-block;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    /* display: none; */
+}
+
+.diaries-post .actions button {
+     font-size: 20px;
+     margin: 15px;
+     /* padding: 7px 25px; */
+     cursor: pointer;
+     border: 2px solid #69D2E7;
+     color: #69D2E7;
+     border-radius: 2px;
+     border-radius: 25px;
+     background: white;
+     /* display: inline-block; */
+     height: 50px;
+     width: 50px;
+     /* margin: 5px 15px; */
+     /* overflow: hidden; */
+}
+
+.diaries-post .actions button:hover {
+    color: black;
+    /*border-color: #FA6900;*/
+    /*background-color: #FA6900;*/
+}
+
+.diaries-post .actions button:focus {
+    outline: none;
+}
+
+.diaries-post .actions .status {
+    background: white;
+    color: #69D2E7;
+    width: 0;
+    display: inline-block;
+    padding: 0;
+    margin: 15px;
+    line-height: 45px;
+    border-radius: 30px;
+    border-width: 0px;
+    border-style: solid;
+    border-color: #69D2E7;
+    transition: all 200ms;
+    text-align: center;
+    opacity: 0;
+}
+
+.diaries-post .actions .status.on {
+    padding: 0 30px;
+    width: 200px;
+    border-width: 2px;
+    opacity: 1;
+}
+
+/** DIARIES LOGIN **/
+
+.diaries-login {
+    margin: 50px 0;
+}
+
+/*.diaries-login img {
+    height: 39px;
+    margin: 10px;
+    vertical-align: middle;
+    border-radius: 4px;
+}*/
+
+.diaries-login button {
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.diaries-login button:focus {
+
+    outline: none;
+}
+
+/** DIARIES FOOTER **/
+
+.diaries-footer {
+    background: aliceblue;
+}
