@@ -252,6 +252,16 @@
     vertical-align: top;
 }
 
+.diaries-post .actions .status.loading {
+    padding: 0 20px;
+    width: 60px;
+    height: 50px;
+    max-width: 1000px;
+    border-width: 2px;
+    opacity: 1;
+    /* vertical-align: top; */
+}
+
 .diaries-post .actions .status.on {
     padding: 0 30px;
     width: auto;

@@ -101,7 +101,7 @@ var DiariesPost = React.createClass({
 
     getInitialState: function() {
 
-        return {content: null, created_at: null, updated_at: null};
+        return {content: null, created_at: null, updated_at: null, posting: false};
     },
 
     onChange: function(e) {
@@ -152,6 +152,9 @@ var DiariesPost = React.createClass({
             'message': this.state.content
         };
 
+        _this.setState({posting: true});
+        _this.props.onStatusChange({message: null, id: null});
+
         var first_line = post_message.message.split('\n')[0].replace('...', '');
         var date = Date.parse(first_line);
 
@@ -160,6 +163,8 @@ var DiariesPost = React.createClass({
             : post_message.message.split('\n').slice(1).filter(function(item){ return item.length > 1; }).join('\n');
 
         FB.api('/me/feed', 'POST', post_message, function (response) {
+
+            _this.setState({posting: false});
 
             if (store.enabled) {
                 var diaries_posts = store.get('diaries_posts');
@@ -242,14 +247,36 @@ var DiariesPost = React.createClass({
 
     render: function() {
 
-        var statusClassList = 'status' + (this.props.post_status && this.props.post_status.length > 1 ? ' on' : '');
+        var statusClassList = ['status'];
+
+        if (this.state.posting) {
+
+            statusClassList.push('loading');
+
+        } else if (this.props.post_status && this.props.post_status.length > 1) {
+
+            statusClassList.push('on');
+        }
+
+        statusClassList = statusClassList.join(' ');
+
+        var statusMore = '';
+
+        if (this.state.posting) {
+
+            statusMore = <i className="fa fa-refresh fa-spin" aria-hidden="true"></i>;
+
+        } else if (this.props.post_status && this.props.post_id) {
+
+            statusMore = <a href={'http://facebook.com/' + this.props.post_id} target="_blank"> See it on Facebook. </a>;
+        }
 
         return (
             <form className="diaries-post" onSubmit={this.onSubmit}>
                 <div className="actions">
                     <button type="submit"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                     <button type="button" onClick={this.onClear}><i className="fa fa-times" aria-hidden="true"></i></button>
-                    <div className={statusClassList}>{this.props.post_status}<a href={'http://facebook.com/' + this.props.post_id} target="_blank"> See it on Facebook. </a></div>
+                    <div className={statusClassList}>{this.props.post_status}{statusMore}</div>
                 </div>
                 <textarea ref="post_textarea" onChange={this.onChange} value={this.state.content}></textarea>
             </form>
