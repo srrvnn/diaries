@@ -1,5 +1,12 @@
 /* http://www.dtelepathy.com/wp-content/uploads/2013/07/Color-Palette-Post-01-Goldfish.png */
 
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
 * {
      font-family: 'Open Sans', sans-serif;
      box-sizing: border-box;
@@ -10,7 +17,7 @@
 
 #container {
     background: #ECECEC;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 .content {
@@ -18,6 +25,7 @@
     text-align: center;
     background: white;
     min-height: 100vh;
+    position: relative;
 }
 
 .diaries-header {
@@ -302,6 +310,42 @@
 
 /** DIARIES FOOTER **/
 
+.body {
+
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+}
+
 .diaries-footer {
-    background: aliceblue;
+    list-style: none;
+    font-size: small;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    /* background-color: #A7DBDB; */
+    text-align: center;
+}
+
+.diaries-footer li {
+    display: inline-block;
+    /* text-decoration: none; */
+}
+
+.diaries-footer li:not(:last-child)::after {
+
+  content: '|';
+  padding: 0 5px;
+}
+
+/*.diaries-footer li:last-child:after {
+
+  content: '';
+  padding: 0 5px;
+}*/
+
+.diaries-footer li a {
+    text-decoration: none;
+    color: #FA6900;
 }

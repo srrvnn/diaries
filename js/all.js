@@ -82,6 +82,8 @@ var Diaries = React.createClass({
         return (
             <div className="content">
 
+                <div className="body">
+
                 <DiariesHeader user={this.state.user} user_id={this.state.user_id} />
 
                 {this.state.user_id !== null ? <DiariesPost user_id={this.state.user_id} onStatusChange={this.postStatusChange}
@@ -89,6 +91,10 @@ var Diaries = React.createClass({
 
                 {this.state.user_id === null ? <FBLogin user_id={this.state.user_id}/> : ''}
                 {this.state.user_id === null ? <DiariesIntro /> : ''}
+
+                </div>
+
+                <DiariesFooter />
 
             </div>
         );
@@ -366,8 +372,9 @@ var DiariesFooter = React.createClass({
     render: function() {
         return (
             <ul className="diaries-footer">
-                <li> Built to land a phone screen at Facebook <a href="mailto:saravanan@alumni.usc.edu&subject:HellofromFacebook">Recruiter?</a> </li>
-                <li> <a href="http://github.com/srrvnn/diaries">Code</a> </li>
+                <li> Built to land a phone screen at Facebook <a href="mailto:saravanan@alumni.usc.edu?subject=Hello from Facebook" target="_blank">Recruiter?</a> </li>
+                <li> <a href="http://srrvnn.me/resume" target="_blank">Resume</a> </li>
+                <li> <a href="http://github.com/srrvnn/diaries" target="_blank">Source Code</a> </li>
             </ul>
         )
     }
