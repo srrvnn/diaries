@@ -215,6 +215,11 @@ body {
     vertical-align: -webkit-baseline-middle;
 }
 
+.diaries-post .actions .btn-submit {
+     font-size: 15px;
+     width: 200px;
+}
+
 .diaries-post .actions button {
      font-size: 20px;
      margin: 15px;

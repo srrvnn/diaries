@@ -241,7 +241,8 @@ var DiariesPost = React.createClass({
 
             if (Boolean(saved.content) && saved.posted) {
 
-                this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n\n', created_at: Date.now()});
+                this.setState({content: ''});
+                // this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n\n', created_at: Date.now()});
 
             } else if (Boolean(saved.content)) {
 
@@ -250,7 +251,8 @@ var DiariesPost = React.createClass({
 
         } else {
 
-            this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n\n', created_at: Date.now()});
+            this.setState({content: ''});
+            // this.setState({content: (new Date()).toLocaleString('en-US', options) + '...\n\n', created_at: Date.now()});
         }
 
         this.refs.post_textarea.focus();
@@ -285,8 +287,8 @@ var DiariesPost = React.createClass({
         return (
             <form className="diaries-post" onSubmit={this.onSubmit}>
                 <div className="actions">
-                    <button type="submit"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                    <button type="button" onClick={this.onClear}><i className="fa fa-times" aria-hidden="true"></i></button>
+                    <button type="submit" className="btn-submit">Post to Facebook</button>
+                    <button type="button" onClick={this.onClear}><i className="fa fa-times" aria-hidden="true"> </i></button>
                     <div className={statusClassList}>{this.props.post_status}{statusMore}</div>
                 </div>
                 <textarea ref="post_textarea" onChange={this.onChange} value={this.state.content}></textarea>
