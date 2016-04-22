@@ -202,6 +202,7 @@
     right: 0;
     z-index: 1;
     /* display: none; */
+    vertical-align: -webkit-baseline-middle;
 }
 
 .diaries-post .actions button {
@@ -235,6 +236,7 @@
     background: white;
     color: #69D2E7;
     width: 0;
+    height: 0;
     display: inline-block;
     padding: 0;
     margin: 15px;
@@ -246,14 +248,21 @@
     transition: all 200ms;
     text-align: center;
     opacity: 0;
+    overflow: hidden;
+    vertical-align: top;
 }
 
 .diaries-post .actions .status.on {
     padding: 0 30px;
-    width: 200px;
+    width: auto;
+    height: 50px;
+    max-width: 1000px;
     border-width: 2px;
     opacity: 1;
+    /* vertical-align: top; */
 }
+
+.diaries-post .actions .status a {color: #FA6900;padding-left: 10px;text-decoration: none;}
 
 /** DIARIES LOGIN **/
 

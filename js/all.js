@@ -85,7 +85,7 @@ var Diaries = React.createClass({
                 <DiariesHeader user={this.state.user} user_id={this.state.user_id} />
 
                 {this.state.user_id !== null ? <DiariesPost user_id={this.state.user_id} onStatusChange={this.postStatusChange}
-                    status={this.state.post_status} id={this.state.post_id}/> : ''}
+                    post_status={this.state.post_status} post_id={this.state.post_id}/> : ''}
 
                 {this.state.user_id === null ? <FBLogin user_id={this.state.user_id}/> : ''}
                 {this.state.user_id === null ? <DiariesIntro /> : ''}
@@ -159,16 +159,6 @@ var DiariesPost = React.createClass({
             ? post_message.message
             : post_message.message.split('\n').slice(1).filter(function(item){ return item.length > 1; }).join('\n');
 
-        _this.props.onStatusChange({message: 'successful', id: '1423042390423_238432'});
-
-        setTimeout(function() {
-
-            _this.props.onStatusChange({message: null, id: null});
-
-        }, 3000);
-
-        return;
-
         FB.api('/me/feed', 'POST', post_message, function (response) {
 
             if (store.enabled) {
@@ -179,12 +169,27 @@ var DiariesPost = React.createClass({
 
             if (response && !response.error) {
 
-                _this.props.onStatusChange({message: 'successful', id: response.id});
+                _this.props.onStatusChange({message: 'Post successful.', id: response.id});
+
+                setTimeout(function() {
+
+                    _this.props.onStatusChange({message: null, id: null});
+
+                }, 10000);
 
             } else {
 
-                _this.props.onStatusChange({message: 'unsuccessful'});
-                console.dir(response);
+                _this.props.onStatusChange({message: 'Post Unsuccesful. ' + response.error.error_user_title});
+
+                console.error(response);
+
+                setTimeout(function() {
+
+                    _this.props.onStatusChange({message: null, id: null});
+
+                    console.clear();
+
+                }, 10000);
             }
         });
     },
@@ -237,14 +242,14 @@ var DiariesPost = React.createClass({
 
     render: function() {
 
-        var statusClassList = 'status' + (this.props.status && this.props.status.length > 1 ? ' on' : '');
+        var statusClassList = 'status' + (this.props.post_status && this.props.post_status.length > 1 ? ' on' : '');
 
         return (
             <form className="diaries-post" onSubmit={this.onSubmit}>
                 <div className="actions">
                     <button type="submit"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                     <button type="button" onClick={this.onClear}><i className="fa fa-times" aria-hidden="true"></i></button>
-                    <div className={statusClassList}>{this.props.status}</div>
+                    <div className={statusClassList}>{this.props.post_status}<a href={'http://facebook.com/' + this.props.post_id} target="_blank"> See it on Facebook. </a></div>
                 </div>
                 <textarea ref="post_textarea" onChange={this.onChange} value={this.state.content}></textarea>
             </form>
@@ -253,6 +258,7 @@ var DiariesPost = React.createClass({
 });
 
 var DiariesHeader = React.createClass({
+
     onLogout: function() {
 
         FB.logout();
@@ -302,13 +308,13 @@ var DiariesIntro = React.createClass({
                 <span className="more">
 
                     <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
-                    Write and post your entries to your Facebook timeline, that will be visible only to you. <br/>
+                    Write your personal entries to your Facebook timeline, to keep your thoughts with rest of your life events. <br/>
 
                     <i className="fa fa-lock" aria-hidden="true"></i>
                     From an app that has only the 'only me' permission, there is no way of a private post going public. <br/>
 
                     <i className="fa fa-floppy-o" aria-hidden="true"></i>
-                    Drafts saved automatically in your browser storage, so you can work on your thoughts over days. <br/>
+                    Diaries works seamlessly offline by saving drafts to browser storage, so you can work on your thoughts over days. <br/>
 
                     <i className="fa fa-hand-spock-o" aria-hidden="true"></i>
                     Posts and Drafts encrypted while stored locally, so you needn't worry about your hacker friend. <br/>
@@ -339,7 +345,7 @@ var FBLogin = React.createClass({
 
     login: function() {
 
-        FB.login();
+        FB.login(function() {}, {scope: 'publish_actions', default_audience: 'only_me'});
     },
 
     render: function() {
