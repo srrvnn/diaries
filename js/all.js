@@ -99,6 +99,8 @@ var DiariesPost = React.createClass({
 
     saveTimeout: null,
 
+    statusTimeout: null,
+
     getInitialState: function() {
 
         return {content: null, created_at: null, updated_at: null, posting: false};
@@ -152,6 +154,8 @@ var DiariesPost = React.createClass({
             'message': this.state.content
         };
 
+        clearTimeout(this.statusTimeout);
+
         _this.setState({posting: true});
         _this.props.onStatusChange({message: null, id: null});
 
@@ -176,7 +180,7 @@ var DiariesPost = React.createClass({
 
                 _this.props.onStatusChange({message: 'Post successful.', id: response.id});
 
-                setTimeout(function() {
+                this.statusTimeout = setTimeout(function() {
 
                     _this.props.onStatusChange({message: null, id: null});
 
@@ -188,7 +192,7 @@ var DiariesPost = React.createClass({
 
                 console.error(response);
 
-                setTimeout(function() {
+                this.statusTimeout = setTimeout(function() {
 
                     _this.props.onStatusChange({message: null, id: null});
 
