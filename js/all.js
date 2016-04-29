@@ -165,12 +165,13 @@ var DiariesPost = React.createClass({
         _this.setState({posting: true});
         _this.props.onStatusChange({message: null, id: null});
 
-        var first_line = post_message.message.split('\n')[0].replace('...', '');
-        var date = Date.parse(first_line);
+        // var first_line = post_message.message.split('\n')[0].replace('...', '');
+        // var date = Date.parse(first_line);
 
-        post_message.message = isNaN(date)
-            ? post_message.message
-            : post_message.message.split('\n').slice(1).filter(function(item){ return item.length > 1; }).join('\n');
+        // post_message.message = isNaN(date)
+            // ? post_message.message
+            // : post_message.message.split('\n').slice(1).filter(function(item){ return item.length > 1; }).join('\n');
+
 
         FB.api('/me/feed', 'POST', post_message, function (response) {
 
