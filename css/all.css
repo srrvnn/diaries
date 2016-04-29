@@ -140,6 +140,7 @@ body {
 
 .diaries-header button img {
     /* vertical-align: middle; */
+    height: 5.3vh;
 }
 
 /** DIARIES STATUS **/
