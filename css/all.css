@@ -98,16 +98,16 @@ body {
 }
 
 .diaries-header button {
-    margin: 12.5px 25px;
+    margin: 1.6vh;
     border: none;
     color: #FA6900;
     border-radius: 5px;
     background: white;
-    height: 50px;
+    height: 5.3vh;
     position: relative;
     overflow: hidden;
     background: #FA6900;
-    width: 50px;
+    width: 5.3vh;
     /* left: calc(50% - 280px); */
 }
 
