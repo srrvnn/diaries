@@ -348,7 +348,7 @@ var DiariesIntro = React.createClass({
 
                     <li>
                         <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
-                        Write your personal entries to your Facebook timeline, to keep your thoughts with rest of your life events. </li>
+                        Write your personal entries to your Facebook timeline, to keep your thoughts with the rest of your life events. </li>
 
                     <li>
                         <i className="fa fa-lock" aria-hidden="true"></i>
