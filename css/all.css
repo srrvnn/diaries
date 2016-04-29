@@ -60,6 +60,7 @@ body {
 
 .diaries-header.user h3 {
     height: 0;
+    overflow: hidden;
 }
 
 .diaries-header-wrapper {
