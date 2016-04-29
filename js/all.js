@@ -311,7 +311,7 @@ var DiariesHeader = React.createClass({
 
             <div className={classList}>
 
-                {this.props.user !== null ? <button className="btn-logout" onClick={this.onLogout}><img src={'http://graph.facebook.com/' + this.props.user_id + '/picture'} /></button> : ''}
+                {this.props.user !== null ? <button className="btn-logout" onClick={this.onLogout}><img src={'http://graph.facebook.com/' + this.props.user_id + '/picture?type=large'} /></button> : ''}
 
                 <h1>{this.props.user ? this.props.user.split(' ')[0] + '\'s ' : ''}Diary</h1>
 
