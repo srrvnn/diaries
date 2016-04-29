@@ -1,6 +1,6 @@
 var Diaries = React.createClass({
 
-    appId: window.location.hostname == 'localhost' ? '1589374801374143' : '1564184183893205',
+    appId: window.location.hostname == 'srrvnn.me' ? '1564184183893205' : '1589374801374143',
 
     getInitialState: function() {
 
@@ -197,8 +197,6 @@ var DiariesPost = React.createClass({
 
                 _this.props.onStatusChange({message: 'Post Unsuccesful. ' + response.error.error_user_title});
 
-                console.dir(response);
-
                 _this.statusTimeout = setTimeout(function() {
 
                     _this.props.onStatusChange({message: null, id: null});
@@ -312,11 +310,11 @@ var DiariesHeader = React.createClass({
 
             <div className={classList}>
 
-                <h1> {this.props.user ? this.props.user.split(' ')[0] + '\'s' : ''} Diary </h1>
-
                 {this.props.user !== null ? <button className="btn-logout" onClick={this.onLogout}><img src={'http://graph.facebook.com/' + this.props.user_id + '/picture'} /></button> : ''}
 
-                <h3> Add worry-free personal entries to your Facebook timeline. </h3>
+                <h1>{this.props.user ? this.props.user.split(' ')[0] + '\'s ' : ''}Diary</h1>
+
+                <h3>Add worry-free personal entries to your Facebook timeline.</h3>
 
             </div>
         )
@@ -345,24 +343,29 @@ var DiariesIntro = React.createClass({
         return (
             <div className="diaries-intro">
 
-                <span className="more">
+                <ul className="more">
 
-                    <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
-                    Write your personal entries to your Facebook timeline, to keep your thoughts with rest of your life events. <br/>
+                    <li>
+                        <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
+                        Write your personal entries to your Facebook timeline, to keep your thoughts with rest of your life events. </li>
 
-                    <i className="fa fa-lock" aria-hidden="true"></i>
-                    From an app that has only the 'only me' permission, there is no way of a private post going public. <br/>
+                    <li>
+                        <i className="fa fa-lock" aria-hidden="true"></i>
+                        From an app that has only the 'only me' permission, there is no way of a private post going public. </li>
 
-                    <i className="fa fa-floppy-o" aria-hidden="true"></i>
-                    Diaries works seamlessly offline by saving drafts to browser storage, so you can work on your thoughts over days. <br/>
+                    <li>
+                        <i className="fa fa-floppy-o" aria-hidden="true"></i>
+                        Diaries works seamlessly offline by saving drafts to browser storage, so you can work on your thoughts over days. </li>
 
-                    <i className="fa fa-hand-spock-o" aria-hidden="true"></i>
-                    Posts and Drafts encrypted while stored locally, so you needn't worry about your hacker friend. <br/>
+                    <li>
+                        <i className="fa fa-hand-spock-o" aria-hidden="true"></i>
+                        Posts and Drafts encrypted while stored locally, so you needn't worry about your hacker friend. </li>
 
-                    <i className="fa fa-picture-o" aria-hidden="true"></i>
-                    Very Soon: Add a private photo to your posts, because nothing tells a story better. <br/>
+                    <li>
+                        <i className="fa fa-picture-o" aria-hidden="true"></i>
+                        Very Soon: Add a private photo to your posts, because nothing tells a story better. </li>
 
-                </span>
+                </ul>
 
             </div>
         )
