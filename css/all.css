@@ -54,6 +54,8 @@ body {
     margin: 0;
     width: auto;
     display: inline-block;
+    /* vertical-align: inherit; */
+    vertical-align: top;
 }
 
 .diaries-header.user h3 {
@@ -102,11 +104,11 @@ body {
     border-radius: 5px;
     background: white;
     height: 50px;
-    position: absolute;
+    position: relative;
     overflow: hidden;
     background: #FA6900;
     width: 50px;
-    left: calc(50% - 280px);
+    /* left: calc(50% - 280px); */
 }
 
 .diaries-header button:focus {
@@ -125,7 +127,7 @@ body {
     font-family: 'FontAwesome';
     content: '\f08b';
     position: absolute;
-    top: 0;
+    /* top: 0; */
     left: 0;
     height: 51px;
     width: 50px;
@@ -137,7 +139,7 @@ body {
 }
 
 .diaries-header button img {
-    vertical-align: middle;
+    /* vertical-align: middle; */
 }
 
 /** DIARIES STATUS **/
